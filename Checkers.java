@@ -1,6 +1,6 @@
 //Course:  02160 Agile object-oriented Software Development 
 //Task:    Assignment 3
-//Authors: Cristian Botezatu (s164571), Alexander Bøgely Holstrup (s164566), Lasse Starklit (s165498)
+//Authors: Cristian Botezatu (s164571), Alexander Bøgely Holstrup (s164566)
 
 import java.util.Scanner;
 
