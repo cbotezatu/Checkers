@@ -1,4 +1,3 @@
-
 //Course:  02160 Agile object-oriented Software Development 
 //Task:    Assignment 3
 //Authors: Cristian Botezatu (s164571), Alexander Bøgely Holstrup (s164566), Lasse Starklit (s165498)
@@ -71,40 +70,6 @@ class PlayerCheckers {
 	}
 }
 
-interface Piece {
-	public boolean Piece(int X, int Y, int NewX, int NewY, int turn);
-}
-
-class Pawn extends Position implements Piece {
-
-	@Override
-	public boolean Piece(int X, int Y, int NewX, int NewY, int turn) {
-		if (turn == 1) {
-			return ((Math.abs(NewX - X) == 1) && NewY - Y == 1);
-		} else {
-			return ((Math.abs(NewX - X) == 1) && NewY - Y == -1);
-		}
-	}
-}
-
-
-/*
-class Queen extends Position implements Piece {
-	public boolean Piece(int X, int Y, int NewX, int NewY, int turn) {
-		boolean result = true;
-			if (turn == 1) {
-				for (int i = 1; i <= 7; i++) {
-					result = ((Math.abs(NewX - X) == i) || NewY - Y == i);
-				}
-			} else {
-				for (int i = 1; i <= 7; i++) {
-					result = ((Math.abs(NewX - X) == i) || NewY - Y == -i);
-				}
-			}
-		return result;
-	}
-}
-*/
 
 public class Checkers {
 
