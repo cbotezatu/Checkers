@@ -1,21 +1,20 @@
+
 //Course:  02160 Agile object-oriented Software Development 
 //Task:    Assignment 3
 //Authors: Cristian Botezatu (s164571), Alexander Bøgely Holstrup (s164566), Lasse Starklit (s165498)
 
 import java.util.Scanner;
 
-class Board {
+class BoardCheckers extends Position {
 	// Board Definition
-	public static String[][] CheckersBoard = { 
-			{ "   ", " 1 ", "   ", " 1 ", "   ", " 1 ", "   ", " 1 " },
+	public static String[][] CheckersBoard = { { "   ", " 1 ", "   ", " 1 ", "   ", " 1 ", "   ", " 1 " },
 			{ " 1 ", "   ", " 1 ", "   ", " 1 ", "   ", " 1 ", "   " },
 			{ "   ", " 1 ", "   ", " 1 ", "   ", " 1 ", "   ", " 1 " },
 			{ "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   " },
 			{ "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   " },
 			{ " 2 ", "   ", " 2 ", "   ", " 2 ", "   ", " 2 ", "   " },
 			{ "   ", " 2 ", "   ", " 2 ", "   ", " 2 ", "   ", " 2 " },
-			{ " 2 ", "   ", " 2 ", "   ", " 2 ", "   ", " 2 ", "   " } 
-			};
+			{ " 2 ", "   ", " 2 ", "   ", " 2 ", "   ", " 2 ", "   " } };
 
 	public String PostionInfo(int X, int Y) {
 		return CheckersBoard[Y][X];
@@ -41,6 +40,9 @@ class Board {
 		}
 		System.out.println("  +------------------------+" + "\n    0  1  2  3  4  5  6  7");
 	}
+}
+
+class Position {
 
 	// Checks whether an input position is inside the bounds of the board
 	public boolean InsideBounds(int X, int Y, int NewX, int NewY) {
@@ -49,15 +51,18 @@ class Board {
 
 	// Checks if it is a valid move made by the player
 	public boolean MoveValidity(int X, int Y, int NewX, int NewY, int turn) {
-		if (turn == 1) {
-			return ((Math.abs(NewX - X) == 1) && NewY - Y == 1);
-		} else {
-			return ((Math.abs(NewX - X) == 1) && NewY - Y == -1);
-		}
+		boolean result = true;
+			if (turn == 1 && NewY == 7) {
+				
+				result = ((Math.abs(NewX - X) == 1) && NewY - Y == 1);
+			} else if (turn == 2 && NewY == 1){
+				result = ((Math.abs(NewX - X) == 1) && NewY - Y == -1);
+			}
+		return result;
 	}
 }
 
-class Player {
+class PlayerCheckers {
 	// PlayerNo
 	int PlayerNo;
 
@@ -66,17 +71,52 @@ class Player {
 	}
 }
 
+interface Piece {
+	public boolean Piece(int X, int Y, int NewX, int NewY, int turn);
+}
+
+class Pawn extends Position implements Piece {
+
+	@Override
+	public boolean Piece(int X, int Y, int NewX, int NewY, int turn) {
+		if (turn == 1) {
+			return ((Math.abs(NewX - X) == 1) && NewY - Y == 1);
+		} else {
+			return ((Math.abs(NewX - X) == 1) && NewY - Y == -1);
+		}
+	}
+}
+
+
+/*
+class Queen extends Position implements Piece {
+	public boolean Piece(int X, int Y, int NewX, int NewY, int turn) {
+		boolean result = true;
+			if (turn == 1) {
+				for (int i = 1; i <= 7; i++) {
+					result = ((Math.abs(NewX - X) == i) || NewY - Y == i);
+				}
+			} else {
+				for (int i = 1; i <= 7; i++) {
+					result = ((Math.abs(NewX - X) == i) || NewY - Y == -i);
+				}
+			}
+		return result;
+	}
+}
+*/
+
 public class Checkers {
 
 	public static void main(String[] args) {
 		// Initialize board
-		Board CBoard = new Board();
+		BoardCheckers CBoard = new BoardCheckers();
 
 		// Initialize players
-		Player P1 = new Player();
+		PlayerCheckers P1 = new PlayerCheckers();
 		P1.SetPlayerNo(1);
 
-		Player P2 = new Player();
+		PlayerCheckers P2 = new PlayerCheckers();
 		P2.SetPlayerNo(2);
 
 		// Initialize Scanner
@@ -111,7 +151,8 @@ public class Checkers {
 
 			// Checking Validity of Input
 			if (CBoard.InsideBounds(in[0], in[1], in[2], in[3]) && CBoard.MoveValidity(in[0], in[1], in[2], in[3], Turn)
-					&& ((CBoard.PostionInfo(in[0], in[1])).equals(" " + Integer.toString(Turn) + " ")) && (CBoard.PostionInfo(in[2], in[3]) == "   ")) {
+					&& ((CBoard.PostionInfo(in[0], in[1])).equals(" " + Integer.toString(Turn) + " "))
+					&& (CBoard.PostionInfo(in[2], in[3]) == "   ")) {
 				// Move Position
 				CBoard.MovePiece(in[0], in[1], in[2], in[3]);
 			} else {
